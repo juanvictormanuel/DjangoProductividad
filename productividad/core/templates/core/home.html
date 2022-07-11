@@ -1,0 +1,240 @@
+{% extends 'core/base.html' %} # para importar el html
+
+
+{% block title %} Sarasti {% endblock %} 
+
+
+
+{% block navigation %} 
+
+
+
+<nav class="collapse navbar-collapse fixed-bottom" id="navbarsExample01" >
+                
+    <div class="scrollbar" id="style-1">
+        <ul>
+
+            <li>
+                <a href="{% url 'home' %}">
+                    <i class="fa fa-home fa-lg"></i>
+                    <span class="nav-text">Inicio</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'task_add' %}">
+                    <i class="fa fa-tasks fa-lg"></i>
+                    <span class="nav-text">Crear proyecto</span>
+                </a>
+            </li>
+
+
+            <li >
+                <a href="{% url 'task_list' %}">
+                    <i class="fa fa-lg fa-lg"></i>
+                    <span class="nav-text">Listar Proyectos</span>
+                </a>
+            </li>
+
+            </li>
+            <li>
+                <a href="{% url 'activity_add' %}">
+                    <i class="fa fa-clock-o fa-lg"></i>
+                    <span class="nav-text">Crear Actividad</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'activity_list' %}">
+                    <i class="fa  fa-lg"></i>
+                    <span class="nav-text">Listar Actividades</span>
+                </a>
+            </li>
+                           
+
+            <li>
+                <a href="http://192.168.10.75/encuestas/encuestaacciones.php">
+                    <i class="fa fa-chevron-right"></i>
+                    <span class="nav-text" >Formulario</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'configuration' %}">
+                    <i class="fa fa-heart fa-lg"></i>
+                    <span class="nav-text">Configuracion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+</nav>
+
+
+
+{% if mensaje%}
+
+<script >
+  window.onload = function alert() {
+
+    Swal.fire({
+        title: "Simple BJ",
+        text: '{{mensaje}}',
+        icon: '{{status}}',
+        confirmButtonText: 'Ok',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // navigateByUrl('home');
+        }
+    });
+}
+
+ </script>
+{% endif %}
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+<div class="container">
+    
+    
+    <div class="row">
+        <div class="row">
+            {% for h, row in frame.iterrows %}
+                {% for item in row %}
+                    {% if item == row.2 %} 
+                        
+                        <div class="progress-bar position format-progress" data-percent="{{item.0}}{% if item.1 != '%' %}{{item.1}}{% else%} {% endif %}" data-duration="1000" data-color="#ccc,yellow">
+                            <div class="info-progress" ">
+                                <p>Proyecto: {{row.Proyecto}}</p>
+                                <p>Nombre Usuario: {{row.3}}</p>
+                                <p>Actividades pendientes: {{row.actividades}}</p>
+                                
+                            </div>
+                        </div>
+                        
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        
+        {% if frame.iterrows %}
+        <table class="table" id="DataTable">
+
+                <tr style="background-color: black; color: aliceblue;">
+                    {% for item in frameTitle %}
+                        {% if item == "idActividad" or item == "actividades" %}
+                            <th style="display:none;">{{item}}</th>
+
+                            {% else %}
+                            <th>{{item}}</th>
+
+                        {% endif %}
+                        
+                    {% endfor %}
+
+                </tr>
+
+                {% for h, row in frame.iterrows %}
+                    <tr>
+                        
+                    {% for item in row %}
+                    
+                        {% if item == row.idActividad or row.actividades == item %}
+                            <td style="display:none;">{{item}}</td>
+
+                            {% else %}
+
+                            
+                             
+                                <td> {{item}}</td>
+                                
+                        {% endif %}
+                        
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+           
+
+        </table>
+        
+        {% endif %}
+        
+    </div>
+</div>
+
+
+<br>
+<br>
+
+<div class="container">
+    
+    
+    <div class="row">
+        
+        {% if frame.iterrows %}
+        <table class="table" id="DataTable">
+
+                <tr style="background-color: black; color: aliceblue;">
+                    {% for item in frameTitle2 %}
+                        {% if item == "idActividad" or item == "actividades" %}
+                            <th style="display:none;">{{item}}</th>
+
+                            {% else %}
+                            <th>{{item}}</th>
+
+                        {% endif %}
+                        
+                    {% endfor %}
+
+                </tr>
+
+                {% for h, row in frame2.iterrows %}
+                    <tr>
+                        
+                    {% for item in row %}
+                    
+                        {% if item == row.idActividad or row.actividades == item %}
+                            <td style="display:none;">{{item}}</td>
+
+                            {% else %}
+                                {% if item == 'Verdadero' or item == 'Falso' %}
+                                    
+                                <td> 
+                                    <button {% if item == "Verdadero" %} class="btn btn-info mr-2"  {% else %}  class="btn btn-warning mr-2" {% endif %} value="{{item}}"  type="submit" onclick="cambiarActividad('{{row.idActividad}}', '{{h}}', '{{ruta}}', '{{token}}')" id="btnTerminar{{h}}"" > {% if item == 'Verdadero' %}Terminar{% else %}Activar{% endif %} </button>
+                                </td>
+                                {% else %}
+
+                                <td> {{item}}</td>
+                            
+                             
+                                {% endif %}
+                                
+                        {% endif %}
+                        
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+           
+
+        </table>
+        {% endif %}
+        
+    </div>
+</div>
+
+<script>
+    $(".progress-bar").loading();
+    
+</script>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'core/home.html' %} # para importar el html 
+
+{% block title %} Listado proyectos {% endblock %} 
+
+
+{% block content %} 
+
+<form class="wrapper bg-white mt-sm-5" action="{% url 'configuration' %}"  method="POST">
+    {% csrf_token %}
+        
+    
+        <div class="d-flex align-items-start py-3 border-bottom">
+            <h3 >Restablecer contraseña</h3>
+            
+        </div>
+        <div class="py-2">
+            <div class="row py-2">
+                <div class="col-md-6">
+                    <label for="firstname">{{Nombre}}</label>
+                    
+                </div>
+                <div class="col-md-6 pt-md-0 pt-3">
+                    <label for="lastname">{{Apellido}}</label>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-2">
+                <div class="col-md-6">
+                    <label for="email">Contraseña Actual</label>
+                    <input type="password" name="password" class="bg-light form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="phone">Nueva Contraseña</label>
+                    <input type="password" name="newPassword" class="bg-light form-control" required >
+                </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6">
+                    
+                </div>
+                
+            </div>
+            <div class="py-3 pb-4 border-bottom">
+                <button class="btn btn-primary mr-3">Guardar cambios</button>
+                
+            </div>
+        
+        </div>
+
+</form>
+
+{% if mensaje%}
+
+<script >
+  window.onload = function alert() {
+
+    Swal.fire({
+        title: "Simple BJ",
+        text: '{{mensaje}}',
+        icon: '{{status}}',
+        confirmButtonText: 'Ok',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // navigateByUrl('home');
+        }
+    });
+}
+
+ </script>
+{% endif %}
+
+{% endblock %}

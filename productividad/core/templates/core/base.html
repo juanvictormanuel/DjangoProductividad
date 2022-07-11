@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html class="menu">
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content=="IE=edge" />
+    <meta name="google" value="notranslate" />
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/css/plugin-progressbar.css' %} ">
+
+    <link rel="stylesheet" type="text/css"href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/task_add.css' %}  ">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %} " >
+    <link rel="stylesheet" href="{% static 'core/css/task_add.css' %}  ">
+    <link rel="stylesheet" href="{% static 'core/css/task_add.css' %}  ">
+    <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/navbar.css' %} " >
+
+    <link rel="stylesheet" href="{% static 'core/css/configuration.css' %} " >
+
+    <link rel="icon" href="{% static 'core/img/logocollec.ico' %}">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="{% static 'core/js/plugin-progressbar.js' %} "></script>
+
+	
+</head>
+
+<body >
+    
+    <div>
+        
+        <div class="navbar navbar-white bg-white fixed-top">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <h5>{{username}}</h5>
+
+            <div id="logo">
+                <img  src="{% static 'core/img/logocollec.ico' %}""></img>
+                <div class="cierre">
+                    <a href=" {% url 'logout' %}"  > Cerrar Sesión</a>
+                    <a href="/admin/"  > Administrar</a>
+                </div>
+                
+            </div>
+
+    </div>
+
+    {% block navigation %} {% endblock %}
+
+    <hr>
+    <hr>
+    <hr>
+    
+    {% block content %} {% endblock %}    
+    <script src="{% static 'core/js/bootstrap.bundle.min.js' %} "></script> 
+    <script src="{% static 'core/js/task_add.js' %} "></script>
+    <script src="{% static 'core/js/alert_dialgo.js' %} "></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+   
+</body>
+
+
+
+</html>

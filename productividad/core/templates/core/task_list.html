@@ -1,0 +1,73 @@
+{% extends 'core/home.html' %} # para importar el html 
+
+{% block title %} Listado proyectos {% endblock %} 
+
+{% block content %} 
+
+<div class="container">
+    <div class="row">
+        <table class="table" id="DataTable">
+
+                <tr style="background-color: black; color: aliceblue;">
+                    {% for item in frameTitle %}
+                        {% if item == "idProcedimiento" %}
+                            <th style="display:none;">{{item}}</th>
+
+                            {% else %}
+                            <th>{{item}}</th>
+
+                        {% endif %}
+                        
+                    {% endfor %}
+
+                </tr>
+
+                {% for h, row in frame.iterrows %}
+                    <tr>
+                    {% for item in row %}
+                        {% if item == row.1 %}
+                            <td><a href="{{row.idProcedimiento}}/{{row.1}}/{{row.Actividades}}">{{item}}</a> </td>
+
+                            {% else %}
+
+                            {% if item == row.idProcedimiento %}
+                                <td style="display:none;">{{item}}</td>
+
+                                {% else %}
+
+                                <td> {{item}}</td>
+                            {% endif %}
+                                
+                        {% endif %}
+                        
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+           
+
+        </table>
+    </div>
+</div>
+
+{% if mensaje %}
+
+<script >
+    window.onload = function alert() {
+  
+      Swal.fire({
+          title: "Simple BJ",
+          text: '{{mensaje}}',
+          icon: '{{status}}',
+          confirmButtonText: 'Ok',
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // navigateByUrl('home');
+          }
+      });
+  }
+  
+   </script>
+{% endif %}
+
+
+{% endblock %}

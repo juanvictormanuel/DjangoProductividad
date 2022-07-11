@@ -1,0 +1,91 @@
+{% extends 'core/home.html' %} # para importar el html 
+
+{% block title %} Modificar actividad {% endblock %} 
+
+{% block content %} 
+
+<form id="formularios" action="{% url 'activity_update' id=idActividad %}"  method="POST">
+    {% csrf_token %}
+    <fieldset>
+        <label for="name">Nombre:</label>
+        <input type="text" required  name="txtNombre" value="{{nombre}}" placeholder="Ingresa el nombre de la actvidad" >
+
+    </fieldset>
+    <fieldset>
+        <label for="name">Descripción:</label>
+        <input type="text"  required name="txtDescripcion" value="{{descripcion}}" placeholder="Ingresa la cantidad de actividades">
+
+    </fieldset>
+    <fieldset>
+        <label for="name">Fecha de Inicio:</label>
+        
+        <input type="date"  onchange="fecha()" value="{{fechaInicio}}" id="txtFechaIn" name="txtFechaIn">
+    </fieldset>
+  
+    <fieldset>
+        <label for="name">Días:</label>
+        <input type="number" value="{{dias}}" required id="txtDias" name="txtDias" onchange="fecha()"  min="0" placeholder="Ingresa la cantidad de dias">
+    </fieldset>
+
+    <fieldset>
+        <label for="name">Fecha de Termino:</label>
+        <input type="date"  readonly required id="txtFechaFin" name="txtFechaFin" value="{{fechaFin}}" >
+    </fieldset>
+
+    <fieldset>
+        <label for="name">Jerarquia:</label>
+        <input type="number" required id="activity" value="{{jerarquia}}" name="txtJerarquia" max="5" min="1" placeholder="Ingresa la jerarquia">
+
+    </fieldset>
+
+    <fieldset>
+        <label for="name">Proyecto de asignacion:</label>
+  
+        <select required  name="cmbTask_list" id="tasks"  >
+            {% for j, item in frameActividades.iterrows %}
+
+            {% if item.idProcedimiento == idProcedimientoFk_id %} 
+            <option value="{{item.idProcedimiento}}"  selected >{{item.1}}</option>
+            
+            {% else %}
+            <option  value="{{item.idProcedimiento}}">{{item.1}}</option>
+            
+            {% endif %} 
+
+            
+            {% endfor %}
+        </select>
+
+        
+
+    </fieldset>
+
+    <button class="btn btn-primary mr-2" type="submit"  >Modificar actividad</button>
+
+    <button class="btn btn-danger" formaction="{% url 'activity_delete' id=idActividad %}" >Eliminar actividad</button>
+</form>
+
+
+
+{% if mensaje%}
+
+<script >
+  window.onload = function alert() {
+
+    Swal.fire({
+        title: "Simple BJ",
+        text: '{{mensaje}}',
+        icon: '{{status}}',
+        confirmButtonText: 'Ok',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // navigateByUrl('home');
+        }
+    });
+}
+
+ </script>
+{% endif %}
+{% endblock %}
+
+

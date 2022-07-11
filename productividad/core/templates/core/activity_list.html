@@ -1,0 +1,86 @@
+{% extends 'core/home.html' %} # para importar el html 
+
+{% block title %} Listado de actividades {% endblock %} 
+
+{% block content %} 
+
+<div class="container">
+    <div class="row">
+        <table class="table" id="DataTable">
+
+                <tr style="background-color: black; color: aliceblue;">
+                    {% for item in frameTitle %}
+                        {% if item == "idActividad" %}
+                            <th style="display:none;">{{item}}</th>
+
+                            {% else %}
+                            <th>{{item}}</th>
+
+                        {% endif %}
+                        
+                    {% endfor %}
+
+                </tr>
+
+                {% for h, row in frame.iterrows %}
+                    <tr>
+                        
+                    {% for item in row %}
+                    
+                        {% if item == row.1 %}
+                            <td><a href="{{row.idActividad}}">{{item}}</a> </td>
+
+                            {% else %}
+
+                            {% if item == row.idActividad %}
+                                <td style="display:none;">{{item}}</td>
+
+                                {% else %}
+                                
+                                
+                                {% if item == 'Verdadero' or item == 'Falso' %}
+                                
+                                <td> 
+                                    <button {% if item == "Verdadero" %} class="btn btn-info mr-2"  {% else %}  class="btn btn-warning mr-2" {% endif %} value="{{item}}"  type="submit" onclick="cambiarActividad('{{row.idActividad}}', '{{h}}', '{{ruta}}', '{{token}}')" id="btnTerminar{{h}}"" > {% if item == 'Verdadero' %}Terminar{% else %}Activar{% endif %} </button>
+                                </td>
+                                {% else %}
+
+                                <td> {{item}}</td>
+
+                                {% endif %}
+                               
+                            {% endif %}
+                                
+                        {% endif %}
+                        
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+           
+
+        </table>
+    </div>
+</div>
+
+{% if mensaje%}
+
+<script >
+  window.onload = function alert() {
+
+    Swal.fire({
+        title: "Simple BJ",
+        text: '{{mensaje}}',
+        icon: '{{status}}',
+        confirmButtonText: 'Ok',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // navigateByUrl('home');
+        }
+    });
+}
+
+ </script>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'core/home.html' %} # para importar el html 
+
+{% block title %} Crear nueva actividad {% endblock %} 
+
+{% block content %} 
+
+<form id="formularios" action="{% url 'activity_add' %}"  method="POST">
+    {% csrf_token %}
+    <fieldset>
+        <label for="name">Nombre:</label>
+        <input type="text" required  name="txtNombre" placeholder="Ingresa el nombre de la actvidad" >
+
+    </fieldset>
+    <fieldset>
+        <label for="name">Descripción:</label>
+        <input type="text"  required name="txtDescripcion"  placeholder="Ingresa la cantidad de actividades">
+
+    </fieldset>
+    <fieldset>
+        <label for="name">Fecha de Inicio:</label>
+        <input type="date"  onchange="fecha()" value="{{fechaIn}}" id="txtFechaIn" name="txtFechaIn">
+    </fieldset>
+  
+    <fieldset>
+        <label for="name">Días:</label>
+        <input type="number" required id="txtDias" name="txtDias" onchange="fecha()"  min="0" placeholder="Ingresa la cantidad de dias">
+    </fieldset>
+
+    <fieldset>
+        <label for="name">Fecha de Termino:</label>
+        <input type="date"  readonly required id="txtFechaFin" name="txtFechaFin"  >
+    </fieldset>
+
+    <fieldset>
+        <label for="name">Jerarquia:</label>
+        <input type="number" required id="activity"  name="txtJerarquia" max="5" min="1" placeholder="Ingresa la jerarquia">
+
+    </fieldset>
+
+    <fieldset>
+        <label for="name">Proyecto de asignacion:</label>
+        <select required name="cmbTask_list" id="tasks">
+            {% for j, item in frameTareas.iterrows %}
+            <option value="{{item.idProcedimiento}}">{{item.1}}</option>
+            {% endfor %}
+        </select>
+
+        
+
+    </fieldset>
+
+    <button class="btn btn-primary mr-2" type="submit"  >Crear actividad</button>
+</form>
+
+
+
+{% if mensaje%}
+
+<script >
+  window.onload = function alert() {
+
+    Swal.fire({
+        title: "Simple BJ",
+        text: '{{mensaje}}',
+        icon: '{{status}}',
+        confirmButtonText: 'Ok',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // navigateByUrl('home');
+        }
+    });
+}
+
+ </script>
+{% endif %}
+{% endblock %}
+
+
